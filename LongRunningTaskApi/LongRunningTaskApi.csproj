@@ -11,6 +11,11 @@
     <Content Remove="logs\**" />
     <EmbeddedResource Remove="logs\**" />
     <None Remove="logs\**" />
+    <!-- data/ chứa Dead Letter Queue ghi lúc runtime — không đưa vào build/publish -->
+    <Compile Remove="data\**" />
+    <Content Remove="data\**" />
+    <EmbeddedResource Remove="data\**" />
+    <None Remove="data\**" />
   </ItemGroup>
 
   <ItemGroup>

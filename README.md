@@ -20,6 +20,30 @@
 * https://www.honlsoft.com/blog/2021-10-27-net-6-periodic-timer
 * https://docs.google.com/document/d/1F4uYAvtSLr3ujEbJJPO_E3Wh7y0ewraXl0zP_bLzWO0
 
+## Giả lập lỗi transient theo xác suất cấu hình, để demo được retry + DLQ.
+```
+{
+  "OrderProcessing": {
+    "SimulatedTransientFailureRate": 0.3
+  }
+}
+```
+
+**Đặt OrderProcessing:SimulatedTransientFailureRate = 0 để tắt.**
+
+```
+{
+  "OrderProcessing": {
+    "SimulatedTransientFailureRate": 0
+  }
+}
+```
+
+## Xem các đơn đã thất bại vĩnh viễn (sau khi hết lượt retry, hoặc lỗi không-transient)
+
+**/v1/dead-letters**
+
+## NuGet packages cần cài đặt cho LongRunningTaskApi:
 ```
 dotnet add package Serilog.AspNetCore
 dotnet add package Microsoft.Extensions.Http.Polly

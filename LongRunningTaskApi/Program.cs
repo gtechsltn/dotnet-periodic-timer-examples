@@ -27,8 +27,15 @@ builder.Services.AddSwaggerGen(options =>
 });
 // ------------------------
 
+// Bind cấu hình pipeline (dung lượng channel, số consumer, retry...) từ appsettings.json
+builder.Services.Configure<OrderProcessingOptions>(
+    builder.Configuration.GetSection(OrderProcessingOptions.SectionName));
+
 // Đăng ký Channel là Singleton
 builder.Services.AddSingleton<OrderChannel>();
+
+// Dead Letter Queue: nơi chứa các đơn thất bại vĩnh viễn (file JSON Lines trong data/)
+builder.Services.AddSingleton<IDeadLetterQueue, FileDeadLetterQueue>();
 
 // Đăng ký Background Service
 builder.Services.AddHostedService<OrderProcessorWorker>();
@@ -54,6 +61,10 @@ app.MapPost("/order/{orderId}", async (string orderId, OrderChannel orderChannel
     await orderChannel.Writer.WriteAsync(orderId);
     return Results.Accepted();
 });
+
+// Xem các đơn đã thất bại vĩnh viễn (sau khi hết lượt retry, hoặc lỗi không-transient)
+app.MapGet("/dead-letters", async (IDeadLetterQueue deadLetterQueue, CancellationToken cancellationToken) =>
+    Results.Ok(await deadLetterQueue.ReadAllAsync(cancellationToken)));
 
 // Lắng nghe sự kiện ứng dụng tắt để đóng Channel
 var lifetime = app.Services.GetRequiredService<IHostApplicationLifetime>();
