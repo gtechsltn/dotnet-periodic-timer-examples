@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="BackgroundTaskApi/BackgroundTaskApi.csproj" />
+  <Project Path="dotnet-periodic-timer-examples/dotnet-periodic-timer-examples.csproj" />
+  <Project Path="LongRunningTaskApi/LongRunningTaskApi.csproj" />
+  <Project Path="system-timers-timer-examples/system-timers-timer-examples.csproj" />
+</Solution>
