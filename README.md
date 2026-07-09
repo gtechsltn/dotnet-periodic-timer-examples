@@ -1,8 +1,30 @@
 # Using PeriodicTimer with SemaphoreSlim in a Console App
-* LongRunningTaskApi             ~ Microsoft.Extensions.Hosting.BackgroundService + System.Threading.Channels
+* LongRunningTaskApi: Không bỏ xót đơn hàng nào
+    * Microsoft.Extensions.Hosting.BackgroundService
+    * System.Threading.Channels & Queue (hàng đợi)
+    * Resilience: Sử dụng Polly để thực hiện Retry Policy thông qua thư viện Microsoft.Extensions.Http.Polly
+    * Parallelism: Enumerable.Range & Task.WhenAll
+    * Graceful Shutdown: IHostApplicationLifetime
+    * Serilog
+    * Swagger
+* LongRunningTaskApi: Xử lý đơn hàng
+    * Microsoft.Extensions.Hosting.BackgroundService
+    * System.Threading.Channels
+    * Serilog
 * BackgroundTaskApi              ~ Microsoft.Extensions.Hosting.BackgroundService
-* dotnet-periodic-timer-examples ~ System.Threading.PeriodicTimer
-* system-timers-timer-examples   ~ System.Timers.Timer
+* dotnet-periodic-timer-examples ~ System.Threading.PeriodicTimer & SemaphoreSlim
+* system-timers-timer-examples   ~ System.Timers.Timer & SemaphoreSlim
+* Sample code:
+* https://github.com/gtechsltn/dotnet-periodic-timer-examples
+* https://dev.to/karenpayneoregon/c-periodictimer-2ed
+* https://www.honlsoft.com/blog/2021-10-27-net-6-periodic-timer
+* https://docs.google.com/document/d/1F4uYAvtSLr3ujEbJJPO_E3Wh7y0ewraXl0zP_bLzWO0
+
+```
+dotnet add package Serilog.AspNetCore
+dotnet add package Microsoft.Extensions.Http.Polly
+dotnet add package Swashbuckle.AspNetCore --version 6.9.0
+```
 
 # dotnet-periodic-timer-examples
 
@@ -357,3 +379,8 @@ public class OrderChannel
 Console.InputEncoding = Encoding.UTF8;
 Console.OutputEncoding = Encoding.UTF8;
 ```
+
+# Tham khảo
+* https://docs.google.com/document/d/1F4uYAvtSLr3ujEbJJPO_E3Wh7y0ewraXl0zP_bLzWO0
+* https://docs.google.com/document/d/18SFwdKIdasjQKUoMDQhZyzQhL5Q3kFGrZ8T3CCQ-dfc
+* https://docs.google.com/document/d/1aSbPBs-VhXiHdF6nmchTGZn-c5HQQqSIouia4ZDapM0
